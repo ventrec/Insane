@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>insane</groupId>
+  <artifactId>insane</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <developers>
+  	<developer>
+  		<id>1</id>
+  		<name>Daniel Gothenborg</name>
+  		<email>daniel@dgw.no</email>
+  		<url>http://www.dgw.no/</url>
+  		<organization>Gothenborg Webutvikling</organization>
+  		<organizationUrl>http://www.dgw.no/</organizationUrl>
+  		<timezone>(GMT+01:00) Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna</timezone>
+  		<roles>
+  			<role>Project Manager</role>
+  		</roles>
+  	</developer>
+  </developers>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.6</source>
+          <target>1.6</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <repositories>
+  	<repository>
+  		<releases>
+  			<enabled>true</enabled>
+  			<updatePolicy>daily</updatePolicy>
+  			<checksumPolicy>warn</checksumPolicy>
+  		</releases>
+  		<snapshots>
+  			<enabled>true</enabled>
+  			<updatePolicy>daily</updatePolicy>
+  			<checksumPolicy>warn</checksumPolicy>
+  		</snapshots>
+  		<id>bukkit-repo</id>
+  		<name>http://repo.bukkit.org/artifactory/libs-snapshot-local</name>
+  		<url>http://repo.bukkit.org/artifactory/libs-snapshot-local</url>
+  	</repository>
+  	<repository>
+  		<releases>
+  			<enabled>true</enabled>
+  			<updatePolicy>daily</updatePolicy>
+  			<checksumPolicy>warn</checksumPolicy>
+  		</releases>
+  		<snapshots>
+  			<enabled>true</enabled>
+  			<updatePolicy>daily</updatePolicy>
+  			<checksumPolicy>warn</checksumPolicy>
+  		</snapshots>
+  		<id>bukkit-repo2</id>
+  		<name>http://repo.bukkit.org/artifactory/libs-release-local</name>
+  		<url>http://repo.bukkit.org/artifactory/libs-release-local</url>
+  	</repository>
+  	<repository>
+  		<releases>
+  			<checksumPolicy>ignore</checksumPolicy>
+  		</releases>
+  		<id>sk89q-mvn2</id>
+      <url>http://mvn2.sk89q.com/repo</url>
+    </repository>
+  	
+  </repositories>
+  <dependencies>
+  	<dependency>
+  		<groupId>org.bukkit</groupId>
+  		<artifactId>bukkit</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  		<type>jar</type>
+  		<scope>compile</scope>
+  		<optional>false</optional>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.bukkit</groupId>
+  		<artifactId>craftbukkit</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  		<type>jar</type>
+  		<scope>compile</scope>
+  		<optional>false</optional>
+  	</dependency>
+  	    <dependency>
+      <groupId>com.sk89q</groupId>
+      <artifactId>worldedit</artifactId>
+      <version>4.6</version>
+      <scope>compile</scope>
+  	    </dependency>
+  </dependencies>
+</project>
