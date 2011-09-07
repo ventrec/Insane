@@ -8,3 +8,7 @@ commands:
         description: Sender info om egen bruker
         usage: |
                /<command>
+    kick:
+        description: Kicker valgt bruker
+        usage: |
+               /<command>

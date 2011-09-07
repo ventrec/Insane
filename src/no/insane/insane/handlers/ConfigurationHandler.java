@@ -14,9 +14,6 @@ public class ConfigurationHandler {
     
     private Insane plugin;
     
-    /**
-     * Holds configurations for different worlds.
-     */
     private Map<String, WorldConfigurationHandler> worlds;
     
 
@@ -24,6 +21,13 @@ public class ConfigurationHandler {
         this.plugin = plugin;
         this.worlds = new HashMap<String, WorldConfigurationHandler>();
     }
+    
+    // Config vars
+	public static	String 	dbuser;
+	public static  	String 	dbpass;
+	public static  	String 	dbname;
+	public static  	String 	dbhost;
+	public static  	int		dbport;
 
     public void load() {
         // Create the default configuration file
@@ -37,7 +41,14 @@ public class ConfigurationHandler {
         for (World world : plugin.getServer().getWorlds()) {
             get(world);
         }
+        
+        dbuser = config.getString("db-user", "username");
+		dbpass = config.getString("db-pass", "password");
+		dbname = config.getString("db-name", "database");
+		dbhost = config.getString("db-host", "localhost");
+		dbport = config.getInt("db-port", 3306);
 
+        
         config.save();
     }
 

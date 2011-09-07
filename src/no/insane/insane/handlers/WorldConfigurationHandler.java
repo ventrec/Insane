@@ -20,6 +20,9 @@ public class WorldConfigurationHandler {
 
 
     public boolean opPermissions;
+    public boolean BrukerCommand;
+    public boolean KickCommand;
+
 
 
     public WorldConfigurationHandler(Insane plugin, String worldName) {
@@ -39,7 +42,8 @@ public class WorldConfigurationHandler {
         Insane.log.info("[Insane] Lastet konfigurasjon for: '" + worldName + '"');
     }
 
-    private boolean getBoolean(String node, boolean def) {
+    @SuppressWarnings("unused")
+	private boolean getBoolean(String node, boolean def) {
         boolean val = parentConfig.getBoolean(node, def);
 
         if (config.getProperty(node) != null) {
@@ -115,11 +119,13 @@ public class WorldConfigurationHandler {
      private void loadConfiguration() {
         config.load();
 
-        opPermissions = getBoolean("op-permissions", true);
-
+        opPermissions = config.getBoolean("op-permissions", true);
+        BrukerCommand = config.getBoolean("BrukerCommand", true);
+        KickCommand = config.getBoolean("KickCommand", true);
+		
         config.save();
     }
-
+     
     public String getWorldName() {
         return this.worldName;
     }

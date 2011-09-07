@@ -10,8 +10,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import no.insane.insane.commands.BrukerCommand;
+import no.insane.insane.commands.KickCommand;
 import no.insane.insane.handlers.ConfigurationHandler;
+import no.insane.insane.handlers.ConsoleHandler;
 import no.insane.insane.handlers.InsaneMySQLHandler;
+import no.insane.insane.handlers.LogHandler;
 import no.insane.insane.handlers.UserHandler;
 import no.insane.insane.listeners.InsaneBlockListener;
 import no.insane.insane.listeners.InsaneEntityListener;
@@ -28,20 +31,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.util.config.Configuration;
 
 	public class Insane extends JavaPlugin {
 		
 		// Configuration
-		public static Configuration config;
-		private final ConfigurationHandler configuration;
+		public final ConfigurationHandler configuration;
+		
+		public Insane() {
+			configuration = new ConfigurationHandler(this);
+		}
 		
 		// SQL
-		public static String 	dbuser;
-		public static String 	dbpass;
-		public static String 	dbname;
-		public static String 	dbhost;
-		public static int 		dbport;
 		private InsaneMySQLHandler sqlHandler = new InsaneMySQLHandler();
 		
 		// Handlers
@@ -49,6 +49,8 @@ import org.bukkit.util.config.Configuration;
 				
 		// Logger
 		public static final Logger log = Logger.getLogger("Minecraft");
+		private LogHandler logHandler = new LogHandler();
+		
 		
 		
 		// Statuser og farger
@@ -58,6 +60,8 @@ import org.bukkit.util.config.Configuration;
 		public static final ChatColor 	STAB_COLOR		= ChatColor.GOLD;
 		public static final int 		VAKT 			= 5;
 		public static final ChatColor 	VAKT_COLOR		= ChatColor.BLUE;
+		public static final int			TRUSTED			= 3;
+		public static final ChatColor	TRUSTED_COLOR	= ChatColor.GREEN;
 		public static final int 		BRUKER 			= 1;
 		public static final ChatColor 	BRUKER_COLOR	= ChatColor.WHITE;
 		public static final int 		GJEST 			= 0;
@@ -72,17 +76,17 @@ import org.bukkit.util.config.Configuration;
 		public InsaneInventoryListener inventoryListener = new InsaneInventoryListener(this);
 		public InsaneWorldListener worldListener = new InsaneWorldListener(this);
 		
-		public Insane() {
-			configuration = new ConfigurationHandler(this);
-		}
 
 		public void onDisable() {
 			
-			config.save();
 			log.log(Level.INFO, "[Insane] Plugin stoppet.");
 		}
 		
 		public void onEnable() {
+			
+			// Log filter
+			Logger.getLogger("Minecraft").setFilter(new ConsoleHandler());
+			
 			for (World world : getServer().getWorlds()) {
 				world.setStorm(false);
 				world.setThundering(false);
@@ -91,17 +95,7 @@ import org.bukkit.util.config.Configuration;
 			
 			getDataFolder().mkdirs();
 			configuration.load();
-						
-			config = getConfiguration();
-			
-			dbuser = config.getString("db-user", "username");
-			dbpass = config.getString("db-pass", "password");
-			dbname = config.getString("db-name", "database");
-			dbhost = config.getString("db-host", "localhost");
-			dbport = config.getInt("db-port", 3306);
-			
-			config.save();
-			
+									
 			registerEvents();
 			
 			sqlConnection();
@@ -196,6 +190,7 @@ import org.bukkit.util.config.Configuration;
 		
 		public void registerCommands() {
 			getCommand("bruker").setExecutor(new BrukerCommand(this));
+			getCommand("kick").setExecutor(new KickCommand(this));
 		}
 		
 		public void sqlConnection() {
@@ -218,6 +213,10 @@ import org.bukkit.util.config.Configuration;
 		
 		public InsaneMySQLHandler getSqlHandler() {
 			return sqlHandler;
+		}
+		
+		public LogHandler getLogHandler() {
+			return logHandler;
 		}
 		
 		public UserHandler getUserHandler() {
@@ -277,5 +276,47 @@ import org.bukkit.util.config.Configuration;
 	            }
 	        }
 	    }
-		
+	    
+	    public ConfigurationHandler getGlobalStateManager() {
+	        return configuration;
+	    }
+	    
+	    public Player playerMatch(String name) {
+			if (this.getServer().getOnlinePlayers().length < 1) {
+				return null;
+			}
+
+			Player[] online = this.getServer().getOnlinePlayers();
+			Player lastPlayer = null;
+
+			for (Player player : online) {
+				String playerName = player.getName();
+				String playerDisplayName = player.getDisplayName();
+
+				if (playerName.equalsIgnoreCase(name)) {
+					lastPlayer = player;
+					break;
+				} else if (playerDisplayName.equalsIgnoreCase(name)) {
+					lastPlayer = player;
+					break;
+				}
+
+				if (playerName.toLowerCase().indexOf(name.toLowerCase()) != -1) {
+					if (lastPlayer != null) {
+						return null;
+					}
+
+					lastPlayer = player;
+				} else if (playerDisplayName.toLowerCase().indexOf(
+						name.toLowerCase()) != -1) {
+					if (lastPlayer != null) {
+						return null;
+					}
+
+					lastPlayer = player;
+				}
+			}
+
+			return lastPlayer;
+		}
 	}

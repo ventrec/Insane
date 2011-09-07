@@ -6,6 +6,7 @@ import no.insane.insane.handlers.UserHandler;
 import org.bukkit.ChatColor;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -32,6 +33,17 @@ import org.bukkit.event.player.PlayerQuitEvent;
 		public void onPlayerChat(PlayerChatEvent e) {
 			e.setCancelled(true);
 			this.plugin.getServer().broadcastMessage(this.userHandler.getChatName(e.getPlayer()) + " " + e.getMessage());
+		}
+		
+		public void onPlayerKick(PlayerKickEvent e) {
+			if (e.getReason().equals("You moved too quickly :( (Hacking?)")) {
+				e.setCancelled(true);
+				return;
+			}
+			if ((e.getReason().toLowerCase().contains("flying")) || (e.getReason().toLowerCase().contains("floating"))) {
+		        e.setCancelled(true);
+		    }
+			e.setLeaveMessage(null);
 		}
 		
 	}
