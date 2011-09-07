@@ -92,5 +92,12 @@
       <version>4.6</version>
       <scope>compile</scope>
   	    </dependency>
+  	    <dependency>
+			<groupId>com.ramblingwood.minecraft.jsonapi</groupId>
+			<artifactId>jsonapi</artifactId>
+			<version>10</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/deps/JSONAPI.jar</systemPath>
+		</dependency>
   </dependencies>
 </project>
