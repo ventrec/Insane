@@ -14,7 +14,9 @@ import no.insane.insane.commands.KickCommand;
 import no.insane.insane.handlers.ConfigurationHandler;
 import no.insane.insane.handlers.ConsoleHandler;
 import no.insane.insane.handlers.InsaneMySQLHandler;
+import no.insane.insane.handlers.JSONAPICallHandler;
 import no.insane.insane.handlers.LogHandler;
+import no.insane.insane.handlers.PlayerData;
 import no.insane.insane.handlers.UserHandler;
 import no.insane.insane.listeners.InsaneBlockListener;
 import no.insane.insane.listeners.InsaneEntityListener;
@@ -26,13 +28,16 @@ import no.insane.insane.listeners.InsaneWorldListener;
 import no.insane.insane.sql.sqlConnector;
 
 import org.bukkit.ChatColor;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-	public class Insane extends JavaPlugin {
+import com.ramblingwood.minecraft.jsonapi.api.APIMethodName;
+
+
+	public class Insane extends JavaPlugin implements JSONAPICallHandler {
 		
 		// Configuration
 		public final ConfigurationHandler configuration;
@@ -84,15 +89,17 @@ import org.bukkit.plugin.java.JavaPlugin;
 		
 		public void onEnable() {
 			
+			Plugin checkplugin = this.getServer().getPluginManager().getPlugin("JSONAPI");
+	        if(checkplugin != null) {
+	            log.info("[Insane] JsonAPI er lastet.");
+	        }
+	        else {
+	        	log.info("[Insane] JsonAPI er ikke lastet.");
+	        }
+			
 			// Log filter
 			Logger.getLogger("Minecraft").setFilter(new ConsoleHandler());
-			
-			for (World world : getServer().getWorlds()) {
-				world.setStorm(false);
-				world.setThundering(false);
-				world.setWeatherDuration(0);
-			}
-			
+						
 			getDataFolder().mkdirs();
 			configuration.load();
 									
@@ -319,4 +326,27 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 			return lastPlayer;
 		}
+	    
+	    public boolean willHandle(APIMethodName methodName) {
+	        if(methodName.matches("getUserStatus")) {
+	            return true;
+	        } else {
+	        	return false;
+	        }
+	    }
+	    
+	    public int getUserStatus(String name) {
+	    	PlayerData pd = this.userHandler.getPlayerData(name);
+	    	return pd.getStatus();
+	    }
+	    
+	    
+
+	    public Object handle(APIMethodName methodName, Object[] args) {
+	        if(methodName.matches("getUserStatus")) {
+	        	return true;
+	        } else {
+	        	return null;
+	        }
+	    }
 	}

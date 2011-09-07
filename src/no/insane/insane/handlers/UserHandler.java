@@ -79,6 +79,25 @@ public class UserHandler {
 		return pd;
 	}
 	
+	public PlayerData getPlayerData(String name) {
+		PlayerData pd = new PlayerData();
+		try {
+			this.getUserPS.setString(1, name);
+			ResultSet rs = this.getUserPS.executeQuery();
+			
+			while(rs.next()) {
+				pd.setUID(rs.getInt(1));
+				pd.setStatus(rs.getInt(3));
+				pd.setBank(rs.getInt(4));
+				pd.setEmail(rs.getString(5));
+				pd.setIP(rs.getString(6));
+			}
+		} catch (SQLException e) {
+			Insane.log.log(Level.SEVERE, "[Insane] MySQL Error: "+ Thread.currentThread().getStackTrace()[0].getMethodName(), e);
+		}
+		return pd;
+	}
+	
 	
 	public boolean userExists(Player p) {
 		boolean exist = false;
