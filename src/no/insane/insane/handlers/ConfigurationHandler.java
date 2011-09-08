@@ -23,6 +23,7 @@ public class ConfigurationHandler {
     }
     
     // Config vars
+    public static	boolean ispublic;
 	public static	String 	dbuser;
 	public static  	String 	dbpass;
 	public static  	String 	dbname;
@@ -42,11 +43,12 @@ public class ConfigurationHandler {
             get(world);
         }
         
-        dbuser = config.getString("db-user", "username");
-		dbpass = config.getString("db-pass", "password");
-		dbname = config.getString("db-name", "database");
-		dbhost = config.getString("db-host", "localhost");
-		dbport = config.getInt("db-port", 3306);
+        dbuser = config.getString("Mysql.db-user", "username");
+		dbpass = config.getString("Mysql.db-pass", "password");
+		dbname = config.getString("Mysql.db-name", "database");
+		dbhost = config.getString("Mysql.db-host", "localhost");
+		dbport = config.getInt("Mysql.db-port", 3306);
+		ispublic = config.getBoolean("Server.Public", true);
 
         
         config.save();

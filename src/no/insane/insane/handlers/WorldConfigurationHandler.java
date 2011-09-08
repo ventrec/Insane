@@ -18,12 +18,8 @@ public class WorldConfigurationHandler {
     private Configuration config;
     private File configFile;
 
-
-    public boolean opPermissions;
     public boolean BrukerCommand;
     public boolean KickCommand;
-
-
 
     public WorldConfigurationHandler(Insane plugin, String worldName) {
         File baseFolder = new File(plugin.getDataFolder(), "worlds/" + worldName);
@@ -119,9 +115,8 @@ public class WorldConfigurationHandler {
      private void loadConfiguration() {
         config.load();
 
-        opPermissions = config.getBoolean("op-permissions", true);
-        BrukerCommand = config.getBoolean("BrukerCommand", true);
-        KickCommand = config.getBoolean("KickCommand", true);
+        BrukerCommand = config.getBoolean("Kommandoer.Bruker", true);
+        KickCommand = config.getBoolean("Kommandoer.Kick", true);
 		
         config.save();
     }

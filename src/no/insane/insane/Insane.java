@@ -330,7 +330,23 @@ import com.ramblingwood.minecraft.jsonapi.api.APIMethodName;
 	    public boolean willHandle(APIMethodName methodName) {
 	        if(methodName.matches("getUserStatus")) {
 	            return true;
-	        } else {
+	        } else if(methodName.matches("registerUser")) {
+	        	return true;
+	        } else if(methodName.matches("isPublic")) {
+	        	return true;
+	        }  else {
+	        	return false;
+	        }
+	    }
+
+	    public Object handle(APIMethodName methodName, Object[] args) {
+	        if(methodName.matches("getUserStatus")) {
+	        	return true;
+	        } else if(methodName.matches("registerUser")) {
+	        	return true;
+	        } else if(methodName.matches("isPublic")) {
+	        	return true;
+	        }  else {
 	        	return false;
 	        }
 	    }
@@ -340,13 +356,31 @@ import com.ramblingwood.minecraft.jsonapi.api.APIMethodName;
 	    	return pd.getStatus();
 	    }
 	    
-	    
-
-	    public Object handle(APIMethodName methodName, Object[] args) {
-	        if(methodName.matches("getUserStatus")) {
-	        	return true;
-	        } else {
-	        	return null;
-	        }
+	    public boolean registerUser(String name) {
+	    	return this.userHandler.register(name);
 	    }
+	    
+	    public boolean isPublic() {
+	    	return ConfigurationHandler.ispublic;
+	    }
+	    
+	    public boolean setStatus(String name, int status) {
+	    	if(this.userHandler.userExists(name)) {
+		    	if(this.userHandler.setStatus(name, status)) {
+		    		this.userHandler.reloadUser(name);
+		    		return true;
+		    	} else {
+		    		return false;
+		    	}
+	    	} else {
+	    		this.userHandler.register(name);
+	    		if(this.userHandler.setStatus(name, status)) {
+		    		this.userHandler.reloadUser(name);
+		    		return true;
+		    	} else {
+		    		return false;
+		    	}
+	    	}
+	    }
+	    
 	}

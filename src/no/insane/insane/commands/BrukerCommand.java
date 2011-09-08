@@ -29,11 +29,7 @@ public class BrukerCommand extends CommandHandler {
 			p.sendMessage(ChatColor.WHITE + "------------ Brukerinformasjon ------------");
 			p.sendMessage(ChatColor.WHITE + "ID: " + ChatColor.GREEN + this.userHandler.getUID(p));
 			p.sendMessage(ChatColor.WHITE + "Brukernavn: " + ChatColor.GREEN + p.getName());
-			p.sendMessage(ChatColor.WHITE + "Status: " + ChatColor.GREEN + this.userHandler.getStatus(p));
-			p.sendMessage(ChatColor.WHITE + "Bank: " + ChatColor.GREEN + this.userHandler.getBank(p));
-			p.sendMessage(ChatColor.WHITE + "Email: " + ChatColor.GREEN + this.userHandler.getEmail(p));
-			p.sendMessage(ChatColor.WHITE + "IP: " + ChatColor.GREEN + this.userHandler.getIP(p));
-			
+			p.sendMessage(ChatColor.WHITE + "Status: " + ChatColor.GREEN + this.userHandler.getStatus(p));			
 		}
 		return true;
 	}

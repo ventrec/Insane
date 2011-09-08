@@ -17,9 +17,11 @@ public class UserHandler {
 	private HashMap<Player, PlayerData> users;
 	private InsaneMySQLHandler sqlHandler;
 	private PreparedStatement getUserPS;
+	private Insane plugin;
 	private Connection conn;
 
 	public UserHandler(Insane instance) {
+		this.plugin = instance;
 		this.sqlHandler = instance.getSqlHandler();
 		this.users = new HashMap<Player, PlayerData>();
 	}
@@ -53,7 +55,15 @@ public class UserHandler {
 	}
 	
 	public boolean register(Player p) {
-		if (sqlHandler.update("REPLACE INTO `users` (`id`, `name`, `status`, `email`, `ip`, `active`, `last_login`) VALUES (NULL, '"+ p.getName() +"', 0, '', '"+ Insane.getPlayerIP(p) +"', UNIX_TIMESTAMP(), UNIX_TIMESTAMP())")) {
+		if (sqlHandler.update("REPLACE INTO `users` (`id`, `name`, `status`, `active`, `last_login`) VALUES (NULL, '"+ p.getName() +"', 0, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())")) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean register(String name) {
+		if (sqlHandler.update("REPLACE INTO `users` (`id`, `name`, `status`, `active`, `last_login`) VALUES (NULL, '"+name+"', '0', UNIX_TIMESTAMP(), UNIX_TIMESTAMP())")) {
 			return true;
 		} else {
 			return false;
@@ -69,9 +79,6 @@ public class UserHandler {
 				while(rs.next()) {
 					pd.setUID(rs.getInt(1));
 					pd.setStatus(rs.getInt(3));
-					pd.setBank(rs.getInt(4));
-					pd.setEmail(rs.getString(5));
-					pd.setIP(rs.getString(6));
 				}
 			} catch (SQLException e) {
 				Insane.log.log(Level.SEVERE, "[Insane] MySQL Error: "+ Thread.currentThread().getStackTrace()[0].getMethodName(), e);
@@ -88,9 +95,6 @@ public class UserHandler {
 			while(rs.next()) {
 				pd.setUID(rs.getInt(1));
 				pd.setStatus(rs.getInt(3));
-				pd.setBank(rs.getInt(4));
-				pd.setEmail(rs.getString(5));
-				pd.setIP(rs.getString(6));
 			}
 		} catch (SQLException e) {
 			Insane.log.log(Level.SEVERE, "[Insane] MySQL Error: "+ Thread.currentThread().getStackTrace()[0].getMethodName(), e);
@@ -98,6 +102,18 @@ public class UserHandler {
 		return pd;
 	}
 	
+	public void reloadUser(String name) {
+		Player p = this.plugin.playerMatch(name);
+		if(p != null) {
+			this.users.remove(p);
+			this.users.put(p, getPlayerData(p));
+		}
+	}
+	
+	public void reloadUser(Player p) {
+		this.users.remove(p);
+		this.users.put(p, getPlayerData(p));
+	}
 	
 	public boolean userExists(Player p) {
 		boolean exist = false;
@@ -113,6 +129,30 @@ public class UserHandler {
 			Insane.log.log(Level.SEVERE, "[Insane] MySQL Error: "+ Thread.currentThread().getStackTrace()[0].getMethodName(), e);
 		}
 		return exist;
+	}
+	
+	public boolean userExists(String name) {
+		boolean exist = false;
+		try {
+			this.getUserPS.setString(1, name);
+
+			ResultSet rs = this.getUserPS.executeQuery();
+
+			while (rs.next()) {
+				exist = true;
+			}
+		} catch (SQLException e) {
+			Insane.log.log(Level.SEVERE, "[Insane] MySQL Error: "+ Thread.currentThread().getStackTrace()[0].getMethodName(), e);
+		}
+		return exist;
+	}
+	
+	public boolean setStatus(String name, int status) {
+		if(sqlHandler.update("UPDATE `users` SET status='"+status+"' WHERE name='"+name+"'")) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	public int getStatus(Player p) {
