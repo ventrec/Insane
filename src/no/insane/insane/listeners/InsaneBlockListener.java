@@ -51,7 +51,7 @@ import org.bukkit.event.block.SignChangeEvent;
 		public void onSignChange(SignChangeEvent e) {
 			if(e.getLine(0).equalsIgnoreCase("mottaker")) {
 				if(e.getLine(1).length() > 0) {
-					this.rrh.setReciever(e.getBlock());
+					this.rrh.setReciever(e.getBlock(), e.getLine(1));
 				}
 			}
 		}
@@ -63,23 +63,32 @@ import org.bukkit.event.block.SignChangeEvent;
             Block block = event.getBlock();
             Sign sign = (Sign) event.getBlock().getState();
             if(sign.getLine(0).equalsIgnoreCase("sender")) {
-            	Insane.log.info("Sender aktivert");
             	if(sign.getLine(1).length() > 0) {
             		String name = sign.getLine(1);
-            		if(this.rrh.getRecievers().containsKey(name)) {
-            			Insane.log.info("Fant recievere");
-            			ArrayList<RedstoneRemoteData> mottakere = this.rrh.getRecievers().get(name);
+            		if(this.rrh.hasReciever(name)) {
+            			ArrayList<RedstoneRemoteData> mottakere = this.rrh.getRecievers(name);
             			Iterator itr = mottakere.iterator();
+            			RedstoneRemoteData rrrd = null;
+            			boolean remove = false;
             			while(itr.hasNext()) {
-            				Insane.log.info("Kjørte kode for reciever");
-            				if((block.isBlockPowered()) || (block.isBlockIndirectlyPowered())) {
-            					block.setType(Material.REDSTONE_TORCH_ON);
+            				RedstoneRemoteData rrd = (RedstoneRemoteData) itr.next();
+            				Block b = this.plugin.getServer().getWorld(block.getWorld().getName()).getBlockAt(rrd.getLocation());
+            				if((b.getType() == Material.REDSTONE_TORCH_ON) || (b.getType() == Material.SIGN_POST)) {
+	            				if((block.isBlockPowered()) || (block.isBlockIndirectlyPowered())) {
+	            					b.setType(Material.REDSTONE_TORCH_ON);
+	            				} else {
+	            					b.setType(Material.SIGN_POST);
+	            					Sign newsign = (Sign) b.getState();
+	            					newsign.setLine(0, "mottaker");
+	            					newsign.setLine(1, name);		
+	            				}
             				} else {
-            					block.setType(Material.SIGN);
-            					Sign newsign = (Sign) block.getState();
-            					newsign.setLine(0, "mottaker");
-            					newsign.setLine(1, name);		
+            					rrrd = rrd;
+            					remove = true;            					
             				}
+            			}
+            			if(remove) {
+            				this.rrh.removeReciever(name, rrrd);
             			}
             		}
             	} else {
@@ -100,11 +109,11 @@ import org.bukkit.event.block.SignChangeEvent;
 		
 		public void onBlockBreak(BlockBreakEvent e) {
 			Player p = e.getPlayer();
-			
 			// Kreves det tillatelse for bygging og kan brukeren bygge?
 			if(!this.userHandler.canBuild(p, p.getWorld())) {
 				e.setCancelled(true);
 			}
+			
 		}
 		
 	}

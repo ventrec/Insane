@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import org.bukkit.Location;
+import no.insane.insane.Insane;
+
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
-
-import no.insane.insane.Insane;
 
 public class RedstoneRemoteHandler {
 	
@@ -19,19 +18,17 @@ public class RedstoneRemoteHandler {
 		
 	}
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public void setReciever(Block b) {
+	@SuppressWarnings({ "rawtypes" })
+	public void setReciever(Block b, String name) {
 		
 		Sign sign = (Sign) b.getState();
-		String name = sign.getLine(1);
 		
 		byte face = sign.getData().getData();
-		Location loc = new Location(sign.getWorld(), sign.getX(), sign.getY(), sign.getZ());
 		
 		RedstoneRemoteData rrd = new RedstoneRemoteData();
 
 		rrd.setFace(face);
-		rrd.setLocation(loc);
+		rrd.setLocation(b.getLocation());
 		
 		if(this.recievers.containsKey(name)) {
 			ArrayList<RedstoneRemoteData> recvs = new ArrayList<RedstoneRemoteData>();
@@ -50,14 +47,29 @@ public class RedstoneRemoteHandler {
 			}
 
 		} else {
-			ArrayList<RedstoneRemoteData> recvs = new ArrayList();
+			ArrayList<RedstoneRemoteData> recvs = new ArrayList<RedstoneRemoteData>();
 			recvs.add(rrd);
 			this.recievers.put(name, recvs);
 		}
 		
 	}
 	
-	public HashMap<String, ArrayList<RedstoneRemoteData>> getRecievers() {
+	public void removeReciever(String name, RedstoneRemoteData rrd) {
+		this.recievers.get(name).remove(rrd);
+	}
+	
+	public boolean hasReciever(String name) {
+		if(this.recievers.containsKey(name)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public ArrayList<RedstoneRemoteData> getRecievers(String name) {
+		return this.recievers.get(name);
+	}
+	public HashMap<String, ArrayList<RedstoneRemoteData>> getRecieverHash() {
 		return this.recievers;
 	}
 }
