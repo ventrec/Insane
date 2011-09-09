@@ -22,6 +22,7 @@ import no.insane.insane.listeners.InsaneBlockListener;
 import no.insane.insane.listeners.InsaneEntityListener;
 import no.insane.insane.listeners.InsaneInventoryListener;
 import no.insane.insane.listeners.InsanePlayerListener;
+import no.insane.insane.listeners.InsaneSpoutListener;
 import no.insane.insane.listeners.InsaneVehicleListener;
 import no.insane.insane.listeners.InsaneWeatherListener;
 import no.insane.insane.listeners.InsaneWorldListener;
@@ -80,6 +81,7 @@ import com.ramblingwood.minecraft.jsonapi.api.APIMethodName;
 		public InsaneWeatherListener weatherListener = new InsaneWeatherListener(this);
 		public InsaneInventoryListener inventoryListener = new InsaneInventoryListener(this);
 		public InsaneWorldListener worldListener = new InsaneWorldListener(this);
+		public InsaneSpoutListener spout = new InsaneSpoutListener(this);
 		
 
 		public void onDisable() {
@@ -192,6 +194,9 @@ import com.ramblingwood.minecraft.jsonapi.api.APIMethodName;
 			
 			// Inventory Events
 			pm.registerEvent(Event.Type.FURNACE_BURN, this.inventoryListener, Event.Priority.Normal, this);
+			
+			// Spout Events
+			pm.registerEvent(Event.Type.CUSTOM_EVENT, this.spout, Event.Priority.Normal, this);
 
 		}
 		

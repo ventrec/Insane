@@ -1,8 +1,11 @@
 package no.insane.insane.listeners;
 
 import no.insane.insane.Insane;
+import no.insane.insane.handlers.UserHandler;
 
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockFormEvent;
 import org.bukkit.event.block.BlockListener;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -11,9 +14,11 @@ import org.bukkit.event.block.BlockPlaceEvent;
 		
 		@SuppressWarnings("unused")
 		private Insane plugin;
+		private UserHandler userHandler;
 
 		public InsaneBlockListener(Insane instance) {
 			this.plugin = instance;
+			this.userHandler = instance.getUserHandler();
 		}
 		
 		public void onBlockForm(BlockFormEvent e) {
@@ -27,7 +32,21 @@ import org.bukkit.event.block.BlockPlaceEvent;
 		}
 		
 		public void onBlockPlace(BlockPlaceEvent e) {
+			Player p = e.getPlayer();
 			
+			// Kreves det tillatelse for bygging og kan brukeren bygge?
+			if(!this.userHandler.canBuild(p, p.getWorld())) {
+				e.setCancelled(true);
+			}
+		}
+		
+		public void onBlockBreak(BlockBreakEvent e) {
+			Player p = e.getPlayer();
+			
+			// Kreves det tillatelse for bygging og kan brukeren bygge?
+			if(!this.userHandler.canBuild(p, p.getWorld())) {
+				e.setCancelled(true);
+			}
 		}
 		
 	}

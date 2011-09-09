@@ -45,6 +45,15 @@
   		<name>http://repo.bukkit.org/artifactory/libs-snapshot-local</name>
   		<url>http://repo.bukkit.org/artifactory/libs-snapshot-local</url>
   	</repository>
+  	 <repository>
+            <id>spout-repo</id>
+            <url>http://repo.getspout.org</url>
+        </repository>
+        <repository>
+            <id>nuxeo-repo</id>
+            <name>Maven Nuxeo Repository</name>
+            <url>http://maven.nuxeo.org/nexus/content/groups/public/</url>
+       </repository>
   	<repository>
   		<releases>
   			<enabled>true</enabled>
@@ -99,5 +108,12 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/deps/JSONAPI.jar</systemPath>
 		</dependency>
+		<dependency>
+            <groupId>org.getspout</groupId>
+            <artifactId>spoutapi</artifactId>
+            <version>dev-SNAPSHOT</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
   </dependencies>
 </project>

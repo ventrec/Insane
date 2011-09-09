@@ -3,6 +3,7 @@ main: no.insane.insane.Insane
 version: 0.1
 website: 'http://www.insane.no'
 authors: ['Xstasy']
+softdepend: [spout]
 commands:
     bruker:
         description: Sender info om egen bruker

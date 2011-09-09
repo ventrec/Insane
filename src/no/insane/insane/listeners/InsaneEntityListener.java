@@ -109,7 +109,7 @@ public class InsaneEntityListener extends EntityListener {
 		}
 
 	}
-
+	
 	public void onEntityDamageByBlock(EntityDamageByBlockEvent event) {
 
 	}

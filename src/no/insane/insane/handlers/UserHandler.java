@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import no.insane.insane.Insane;
 
 import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 public class UserHandler {
@@ -173,6 +174,19 @@ public class UserHandler {
 	
 	public String getIP(Player p) {
 		return this.users.get(p).getIP();
+	}
+	
+	public boolean canBuild(Player p, World w) {
+		ConfigurationHandler cfg = this.plugin.getGlobalStateManager();
+		WorldConfigurationHandler wcfg = cfg.get(p.getWorld());
+		
+		if((getStatus(p) < 1) && (wcfg.BuildPermission)) {
+			p.sendMessage(ChatColor.RED + "Du har ikke tillatelse til å bygge på denne serveren.");
+			p.sendMessage(ChatColor.RED + "Gå til http://insane.no for å få tillatelse til å bygge.");
+			return false;
+		} else {
+			return true;
+		}
 	}
 	
 	public String getChatName(Player p) {

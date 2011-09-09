@@ -35,6 +35,11 @@ public class WorldConfigurationHandler {
     
     public boolean CreeperBlockDamage;
     public boolean TNTBlockDamage;
+    public boolean IceRegen;
+    public boolean SnowRegen;
+    
+    // Plugin
+    public boolean BuildPermission;    
     
     public boolean Chickens;
     public boolean Pigs;
@@ -145,23 +150,34 @@ public class WorldConfigurationHandler {
      private void loadConfiguration() {
         config.load();
 
+        // Kommandoer
         BrukerCommand = config.getBoolean("Kommandoer.Bruker", true);
         KickCommand = config.getBoolean("Kommandoer.Kick", true);
-        PVPDamage = config.getBoolean("Bruker.PVP-skade", true);
-        Damage = config.getBoolean("Bruker.Skade", true);
-        CreatureDamage = config.getBoolean("Bruker.Monster-mot-spiller-skade", true);
-        DrowningDamage = config.getBoolean("Bruker.Miste-liv-ved-drukning", true);
-        FireDamage = config.getBoolean("Bruker.Miste-liv-ved-brann", true);
-        LavaDamage = config.getBoolean("Bruker.Miste-liv-i-lava", true);
-        ContactDamage = config.getBoolean("Bruker.Miste-liv-ved-kontakt-med-blokk", true);
-        TNTDamage = config.getBoolean("Bruker.Miste-liv-i-eksplosjon", true);
-        FallDamage = config.getBoolean("Bruker.Miste-liv-ved-fall", true);
-        BlockDamage = config.getBoolean("Bruker.Miste-liv-inni-blokk", true);
-        VoidDamage = config.getBoolean("Bruker.Miste-liv-i-void", true);
-        VoidTeleport = config.getBoolean("Bruker.Teleporter-ut-av-void", true);
+        
+        // Bruker Skade
+        PVPDamage = config.getBoolean("Bruker.Skade.PVP-skade", true);
+        Damage = config.getBoolean("Bruker.Skade.Skade", true);
+        CreatureDamage = config.getBoolean("Bruker.Skade.Monster-mot-spiller-skade", true);
+        DrowningDamage = config.getBoolean("Bruker.Skade.Miste-liv-ved-drukning", true);
+        FireDamage = config.getBoolean("Bruker.Skade.Miste-liv-ved-brann", true);
+        LavaDamage = config.getBoolean("Bruker.Skade.Miste-liv-i-lava", true);
+        ContactDamage = config.getBoolean("Bruker.Skade.Miste-liv-ved-kontakt-med-blokk", true);
+        TNTDamage = config.getBoolean("Bruker.Skade.Miste-liv-i-eksplosjon", true);
+        FallDamage = config.getBoolean("Bruker.Skade.Miste-liv-ved-fall", true);
+        BlockDamage = config.getBoolean("Bruker.Skade.Miste-liv-inni-blokk", true);
+        VoidDamage = config.getBoolean("Bruker.Skade.Miste-liv-i-void", true);
+        VoidTeleport = config.getBoolean("Bruker.Skade.Teleporter-ut-av-void", true);
+        
+        // Bruker Handlinger
+        BuildPermission = config.getBoolean("Bruker.Handlinger.Krev-byggetillatelse-for-bygging", true);
+        
+        // Verden
         CreeperBlockDamage = config.getBoolean("Verden.Blokker-blir-ekslodert-av-Creeper", true);
         TNTBlockDamage = config.getBoolean("Verden.Blokker-blir-eksplodert-av-TNT", true);
+        SnowRegen = config.getBoolean("Verden.Snow-regenereres-av-vaer", true);
+        IceRegen = config.getBoolean("Verden.Is-regenereres-av-vaer", true);
         
+        // Dyr
         Chickens = config.getBoolean("Dyr.Kyllinger", true);
         Pigs = config.getBoolean("Dyr.Griser", true);
         Cows = config.getBoolean("Dyr.Kuer", true);
@@ -169,6 +185,7 @@ public class WorldConfigurationHandler {
         Squids = config.getBoolean("Dyr.Blekkspruter", true);
         Wolves = config.getBoolean("Dyr.Ulver", true);
         
+        // Monstre
         Creepers = config.getBoolean("Monstre.Creepere", true);
         Skeletons = config.getBoolean("Monstre.Skeletons", true);
         Slimes = config.getBoolean("Monstre.Slimes", true);
