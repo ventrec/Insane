@@ -174,7 +174,7 @@ public class WorldConfigurationHandler {
         // Verden
         CreeperBlockDamage = config.getBoolean("Verden.Blokker-blir-ekslodert-av-Creeper", true);
         TNTBlockDamage = config.getBoolean("Verden.Blokker-blir-eksplodert-av-TNT", true);
-        SnowRegen = config.getBoolean("Verden.Snow-regenereres-av-vaer", true);
+        SnowRegen = config.getBoolean("Verden.Snoe-regenereres-av-vaer", true);
         IceRegen = config.getBoolean("Verden.Is-regenereres-av-vaer", true);
         
         // Dyr

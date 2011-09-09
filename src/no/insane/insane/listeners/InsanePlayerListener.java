@@ -30,7 +30,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 			this.userHandler.login(p);
 			if(!ConfigurationHandler.ispublic) {
 				if (this.userHandler.getStatus(p) < 5) {
-					e.disallow(PlayerLoginEvent.Result.KICK_BANNED, "Serveren er ikke public.");	
+					e.disallow(PlayerLoginEvent.Result.KICK_BANNED, "Serveren er ikke offentlig.");	
 				}
 			}
 		}
@@ -58,6 +58,5 @@ import org.bukkit.event.player.PlayerQuitEvent;
 		        e.setCancelled(true);
 		    }
 			e.setLeaveMessage(null);
-		}
-		
+		}		
 	}

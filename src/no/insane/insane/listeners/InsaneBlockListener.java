@@ -1,26 +1,37 @@
 package no.insane.insane.listeners;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import no.insane.insane.Insane;
 import no.insane.insane.handlers.ConfigurationHandler;
+import no.insane.insane.handlers.RedstoneRemoteData;
+import no.insane.insane.handlers.RedstoneRemoteHandler;
 import no.insane.insane.handlers.UserHandler;
 import no.insane.insane.handlers.WorldConfigurationHandler;
 
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockFormEvent;
 import org.bukkit.event.block.BlockListener;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.block.BlockRedstoneEvent;
+import org.bukkit.event.block.SignChangeEvent;
 
 	public class InsaneBlockListener extends BlockListener {
 		
 		private Insane plugin;
 		private UserHandler userHandler;
+		private RedstoneRemoteHandler rrh;
 
 		public InsaneBlockListener(Insane instance) {
 			this.plugin = instance;
 			this.userHandler = instance.getUserHandler();
+			this.rrh = instance.getRedstoneRemoteHandler();
 		}
 		
 		public void onBlockForm(BlockFormEvent e) {
@@ -37,6 +48,47 @@ import org.bukkit.event.block.BlockPlaceEvent;
 			
 		}
 		
+		public void onSignChange(SignChangeEvent e) {
+			if(e.getLine(0).equalsIgnoreCase("mottaker")) {
+				if(e.getLine(1).length() > 0) {
+					this.rrh.setReciever(e.getBlock());
+				}
+			}
+		}
+		@SuppressWarnings("rawtypes")
+		public void onBlockRedstoneChange(BlockRedstoneEvent event) {
+            if (!(event.getBlock().getState() instanceof Sign)) {
+                    return;
+            }
+            Block block = event.getBlock();
+            Sign sign = (Sign) event.getBlock().getState();
+            if(sign.getLine(0).equalsIgnoreCase("sender")) {
+            	Insane.log.info("Sender aktivert");
+            	if(sign.getLine(1).length() > 0) {
+            		String name = sign.getLine(1);
+            		if(this.rrh.getRecievers().containsKey(name)) {
+            			Insane.log.info("Fant recievere");
+            			ArrayList<RedstoneRemoteData> mottakere = this.rrh.getRecievers().get(name);
+            			Iterator itr = mottakere.iterator();
+            			while(itr.hasNext()) {
+            				Insane.log.info("Kjørte kode for reciever");
+            				if((block.isBlockPowered()) || (block.isBlockIndirectlyPowered())) {
+            					block.setType(Material.REDSTONE_TORCH_ON);
+            				} else {
+            					block.setType(Material.SIGN);
+            					Sign newsign = (Sign) block.getState();
+            					newsign.setLine(0, "mottaker");
+            					newsign.setLine(1, name);		
+            				}
+            			}
+            		}
+            	} else {
+            		return;
+            	}
+            } else {
+            	return;
+            }
+		}
 		public void onBlockPlace(BlockPlaceEvent e) {
 			Player p = e.getPlayer();
 			
