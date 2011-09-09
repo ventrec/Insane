@@ -1,9 +1,12 @@
 package no.insane.insane.listeners;
 
 import no.insane.insane.Insane;
+import no.insane.insane.handlers.ConfigurationHandler;
 import no.insane.insane.handlers.UserHandler;
+import no.insane.insane.handlers.WorldConfigurationHandler;
 
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockFormEvent;
@@ -12,7 +15,6 @@ import org.bukkit.event.block.BlockPlaceEvent;
 
 	public class InsaneBlockListener extends BlockListener {
 		
-		@SuppressWarnings("unused")
 		private Insane plugin;
 		private UserHandler userHandler;
 
@@ -22,10 +24,14 @@ import org.bukkit.event.block.BlockPlaceEvent;
 		}
 		
 		public void onBlockForm(BlockFormEvent e) {
+			World w = e.getBlock().getWorld();
 			
-			if(!e.isCancelled() && e.getNewState().getType() == Material.ICE) {
+			ConfigurationHandler cfg = this.plugin.getGlobalStateManager();
+			WorldConfigurationHandler wcfg = cfg.get(w);
+			
+			if((!e.isCancelled()) && (e.getNewState().getType() == Material.ICE) && (!wcfg.IceRegen)) {
 				e.setCancelled(true);
-			} else if(!e.isCancelled() && e.getNewState().getType() == Material.SNOW) {
+			} else if((!e.isCancelled()) && (e.getNewState().getType() == Material.SNOW) && (!wcfg.SnowRegen)) {
 				e.setCancelled(true);
 			}
 			
