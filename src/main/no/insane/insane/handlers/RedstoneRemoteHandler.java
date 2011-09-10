@@ -44,12 +44,14 @@ public class RedstoneRemoteHandler {
 			if(add) {
 				recvs.add(rrd);
 				this.recievers.put(name, recvs);
+				Insane.log.info("La til ny reciever på eksisterende frekvens");
 			}
 
 		} else {
 			ArrayList<RedstoneRemoteData> recvs = new ArrayList<RedstoneRemoteData>();
 			recvs.add(rrd);
 			this.recievers.put(name, recvs);
+			Insane.log.info("La til ny reciever på ny frekvens");
 		}
 		
 	}
