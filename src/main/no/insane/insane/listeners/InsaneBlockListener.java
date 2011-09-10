@@ -75,9 +75,9 @@ import org.bukkit.event.block.SignChangeEvent;
             				Block b = this.plugin.getServer().getWorld(block.getWorld().getName()).getBlockAt(rrd.getLocation());
             				if((b.getType() == Material.REDSTONE_TORCH_ON) || (b.getType() == Material.SIGN_POST)) {
 	            				if((block.isBlockPowered()) || (block.isBlockIndirectlyPowered())) {
-	            					b.setType(Material.REDSTONE_TORCH_ON);
+	            					b.setTypeIdAndData(Material.REDSTONE_TORCH_ON.getId(), rrd.getFace(), true);
 	            				} else {
-	            					b.setTypeIdAndData(63, rrd.getFace(), true);	
+	            					b.setTypeIdAndData(Material.SIGN_POST.getId(), rrd.getFace(), true);	
 	            				}
             				} else {
             					rrrd = rrd;
