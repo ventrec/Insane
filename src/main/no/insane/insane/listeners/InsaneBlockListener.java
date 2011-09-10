@@ -77,10 +77,7 @@ import org.bukkit.event.block.SignChangeEvent;
 	            				if((block.isBlockPowered()) || (block.isBlockIndirectlyPowered())) {
 	            					b.setType(Material.REDSTONE_TORCH_ON);
 	            				} else {
-	            					b.setType(Material.SIGN_POST);
-	            					Sign newsign = (Sign) b.getState();
-	            					newsign.setLine(0, "mottaker");
-	            					newsign.setLine(1, name);		
+	            					b.setTypeIdAndData(63, rrd.getFace(), true);	
 	            				}
             				} else {
             					rrrd = rrd;
