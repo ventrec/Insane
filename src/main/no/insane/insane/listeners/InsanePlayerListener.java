@@ -40,7 +40,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 		public void onPlayerJoin(PlayerJoinEvent e) {
 			Player p = e.getPlayer();
 			this.userHandler.reloadUser(p);
-			e.setJoinMessage(e.getPlayer().getName() + ChatColor.GREEN + " logget på.");
+			e.setJoinMessage(e.getPlayer().getName() + ChatColor.GREEN + " logget pÃ¥.");
 		}
 		
 		public void onPlayerQuit(PlayerQuitEvent e) {

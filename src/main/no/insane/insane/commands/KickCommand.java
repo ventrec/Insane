@@ -48,7 +48,7 @@ public class KickCommand extends CommandHandler {
 						v.kickPlayer("Du ble kicket, ingen grunn oppgitt.");
 					}
 				} else {
-					p.sendMessage(ChatColor.RED + "Du har ikke rett tilgangsnivå til å kicke denne brukeren.");
+					p.sendMessage(ChatColor.RED + "Du har ikke rett tilgangsnivÃ¥ til Ã¥ kicke denne brukeren.");
 				}
 			}
 		}

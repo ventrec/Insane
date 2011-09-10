@@ -171,8 +171,8 @@ public class UserHandler {
 		WorldConfigurationHandler wcfg = cfg.get(p.getWorld());
 		
 		if((getUserStatus(p) < 1) && (wcfg.BuildPermission)) {
-			p.sendMessage(ChatColor.RED + "Du har ikke tillatelse til å bygge på denne serveren.");
-			p.sendMessage(ChatColor.RED + "Gå til http://insane.no for å få tillatelse til å bygge.");
+			p.sendMessage(ChatColor.RED + "Du har ikke tillatelse til Ã¥ bygge pÃ¥ denne serveren.");
+			p.sendMessage(ChatColor.RED + "GÃ¥ til http://insane.no for Ã¥ fÃ¥ tillatelse til Ã¥ bygge.");
 			return false;
 		} else {
 			return true;
