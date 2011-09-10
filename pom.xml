@@ -21,29 +21,14 @@
   <build>
     <plugins>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
+        <version>2.3.2</version>
         <executions>
           <execution>
-            <id>only-library</id>
-            <goals><goal>jar</goal></goals>
-            <phase>package</phase>
-            <configuration>
-              <classifier>only-library</classifier>
-              <excludes>
-                <exclude>**/Main*</exclude>
-              </excludes>
-            </configuration>
-          </execution>
-          <execution>
-            <id>everything</id>
-            <goals><goal>jar</goal></goals>
-            <phase>package</phase>
-            <configuration>
-              <classifier>everything</classifier>
-              <includes>
-                <include>**/*</include>
-              </includes>
-            </configuration>
+            <goals>
+              <goal>test-jar</goal>
+            </goals>
           </execution>
         </executions>
       </plugin>
