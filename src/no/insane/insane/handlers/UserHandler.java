@@ -112,7 +112,9 @@ public class UserHandler {
 	}
 	
 	public void reloadUser(Player p) {
-		this.users.remove(p);
+		if(this.users.containsKey(p)) {
+			this.users.remove(p);
+		}
 		this.users.put(p, getPlayerData(p));
 	}
 	
@@ -156,31 +158,19 @@ public class UserHandler {
 		}
 	}
 	
-	public int getStatus(Player p) {
+	public int getUserStatus(Player p) {
 		return this.users.get(p).getStatus();
 	}
 	
 	public int getUID(Player p) {
 		return this.users.get(p).getUID();
 	}
-	
-	public int getBank(Player p) {
-		return this.users.get(p).getBank();
-	}
-	
-	public String getEmail(Player p) {
-		return this.users.get(p).getEmail();
-	}
-	
-	public String getIP(Player p) {
-		return this.users.get(p).getIP();
-	}
-	
+		
 	public boolean canBuild(Player p, World w) {
 		ConfigurationHandler cfg = this.plugin.getGlobalStateManager();
 		WorldConfigurationHandler wcfg = cfg.get(p.getWorld());
 		
-		if((getStatus(p) < 1) && (wcfg.BuildPermission)) {
+		if((getUserStatus(p) < 1) && (wcfg.BuildPermission)) {
 			p.sendMessage(ChatColor.RED + "Du har ikke tillatelse til å bygge på denne serveren.");
 			p.sendMessage(ChatColor.RED + "Gå til http://insane.no for å få tillatelse til å bygge.");
 			return false;
@@ -190,15 +180,15 @@ public class UserHandler {
 	}
 	
 	public String getChatName(Player p) {
-		if(getStatus(p) == Insane.ADMIN) {
+		if(getUserStatus(p) == Insane.ADMIN) {
 			return Insane.ADMIN_COLOR + p.getName() + ":" + ChatColor.WHITE;
-		} else if(getStatus(p) == Insane.STAB) {
+		} else if(getUserStatus(p) == Insane.STAB) {
 			return Insane.STAB_COLOR + p.getName() + ":" + ChatColor.WHITE;
-		} else if(getStatus(p) == Insane.VAKT) {
+		} else if(getUserStatus(p) == Insane.VAKT) {
 			return Insane.VAKT_COLOR + p.getName() + ":" + ChatColor.WHITE;
-		} else if(getStatus(p) == Insane.BRUKER) {
+		} else if(getUserStatus(p) == Insane.BRUKER) {
 			return Insane.BRUKER_COLOR + p.getName() + ":" + ChatColor.WHITE;
-		} else if(getStatus(p) == Insane.GJEST) {
+		} else if(getUserStatus(p) == Insane.GJEST) {
 			return Insane.GJEST_COLOR + p.getName() + ":" + ChatColor.WHITE;
 		} else {
 			return p.getName() + ":";

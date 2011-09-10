@@ -34,7 +34,7 @@ public class KickCommand extends CommandHandler {
 		if(wcfg.KickCommand) {
 			if(args.length >= 1) {
 				Player v = plugin.playerMatch(args[0]);
-				if(this.userHandler.getStatus(p) >= this.userHandler.getStatus(v)) {
+				if(this.userHandler.getUserStatus(p) >= this.userHandler.getUserStatus(v)) {
 					if(args.length > 1) {
 						String kick = "";
 						for(int i = 1; i <= args.length-1; i++) {

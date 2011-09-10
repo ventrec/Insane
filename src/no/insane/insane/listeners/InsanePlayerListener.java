@@ -28,15 +28,18 @@ import org.bukkit.event.player.PlayerQuitEvent;
 		
 		public void onPlayerLogin(PlayerLoginEvent e) {
 			Player p = e.getPlayer();
-			this.userHandler.login(p);
+			
 			if(!ConfigurationHandler.ispublic) {
-				if (this.userHandler.getStatus(p) < 5) {
-					e.disallow(PlayerLoginEvent.Result.KICK_BANNED, "Serveren er ikke offentlig.");	
+				if (this.userHandler.getPlayerData(p).getStatus() < 5) {
+					e.disallow(PlayerLoginEvent.Result.KICK_BANNED, "Serveren er ikke offentlig.");
+					this.userHandler.logout(p);
 				}
 			}
 		}
 		
 		public void onPlayerJoin(PlayerJoinEvent e) {
+			Player p = e.getPlayer();
+			this.userHandler.reloadUser(p);
 			e.setJoinMessage(e.getPlayer().getName() + ChatColor.GREEN + " logget på.");
 		}
 		

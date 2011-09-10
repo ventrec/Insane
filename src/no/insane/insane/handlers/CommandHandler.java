@@ -32,13 +32,10 @@ public abstract class CommandHandler implements CommandExecutor {
 		this.setStatus(15);
 	}
 
-	@Override
-	public boolean onCommand(CommandSender sender, Command command,
-			String label, String[] args)
-	{
+	public boolean onCommand(CommandSender sender, Command command,	String label, String[] args) {
 		if (CommandHandler.isPlayer(sender)) {
 			Player player = (Player) sender;
-			if (this.userHandler.getStatus(player) >= getStatus() || player.isOp()) {
+			if (this.userHandler.getUserStatus(player) >= getStatus() || player.isOp()) {
 				return onPlayerCommand(player, command, label, args);
 			}
 		}

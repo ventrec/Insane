@@ -6,7 +6,6 @@ import java.sql.DriverManager;
 import java.sql.DriverPropertyInfo;
 import java.sql.SQLException;
 import java.util.Properties;
-import java.util.logging.Logger;
 
 /**
  * <b>Purpose:</b>Wrapper for JDBCConnectionDriver.<br>
@@ -26,8 +25,6 @@ public class JDCConnectionDriver implements Driver {
 	private static final int MAJOR_VERSION = 1;
 	private static final int MINOR_VERSION = 0;
 	private ConnectionService pool;
-
-	public Logger getParentLogger() { return java.util.logging.Logger.getAnonymousLogger(); }
 
 	public JDCConnectionDriver(String driver, String url, String user,
 			String password) throws ClassNotFoundException,
