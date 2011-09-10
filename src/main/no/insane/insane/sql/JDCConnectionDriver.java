@@ -20,7 +20,7 @@ import java.util.Properties;
  *          michael.schneidt@arcor.de $<br>
  * @link http://code.google.com/p/simpl09/
  */
-public class JDCConnectionDriver implements Driver {
+public abstract class JDCConnectionDriver implements Driver {
 	public static final String URL_PREFIX = "jdbc:jdc:";
 	private static final int MAJOR_VERSION = 1;
 	private static final int MINOR_VERSION = 0;
