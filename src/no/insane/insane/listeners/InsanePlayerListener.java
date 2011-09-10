@@ -7,6 +7,7 @@ import no.insane.insane.handlers.UserHandler;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerListener;
@@ -58,5 +59,9 @@ import org.bukkit.event.player.PlayerQuitEvent;
 		        e.setCancelled(true);
 		    }
 			e.setLeaveMessage(null);
-		}		
+		}
+		
+		public void onPlayerInteract(PlayerInteractEvent e) {
+			
+		}
 	}
