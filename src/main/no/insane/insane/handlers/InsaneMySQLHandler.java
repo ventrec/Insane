@@ -67,20 +67,7 @@ public class InsaneMySQLHandler {
 		}
 	}
 
-	/**
-	 * Oppdaterer tabellen med gitte spørring og verdiene i arrayet. Verdiene må
-	 * castes om til object og puttes i arrayet for at ting skal fungere
-	 * korrekt.
-	 * 
-	 * @param query
-	 *            (String) Spørringen som skal utføres. Det er viktig at det er
-	 *            ? hvor verdiene skal være
-	 * @param array
-	 *            (Object[]) Her lagres verdiene som skal inn i spørringa. Det
-	 *            kjøres sjekk på hvilken type verdi det er, som igjen kaster de
-	 *            om til korrekt object.
-	 * @return (boolean) True/False alt ettersom om spørringen lykkes
-	 */
+
 	public boolean update(String query, Object[] array) {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -92,11 +79,9 @@ public class InsaneMySQLHandler {
 				conn = this.sqlConnection;
 				ps = conn.prepareStatement(query);
 
-				// Her kjører man inn variablene
 				for (Object o : array) {
 					if (o instanceof Integer) {
-						ps.setInt(counter, (Integer) o); // indeks og object som
-															// blir castet
+						ps.setInt(counter, (Integer) o);
 					} else if (o instanceof String) {
 						ps.setString(counter, (String) o);
 					} else {
@@ -105,7 +90,7 @@ public class InsaneMySQLHandler {
 						Insane.log.log(Level.SEVERE, Arrays.toString(array));
 						return false;
 					}
-					counter++; // øker indeks
+					counter++; // ï¿½ker indeks
 				}
 				array = null;
 				ps.setEscapeProcessing(true);
@@ -116,9 +101,9 @@ public class InsaneMySQLHandler {
 				long newTime = System.currentTimeMillis();
 				if (newTime - time > 30) {
 					Insane.log.log(Level.INFO,
-							"[Insane] En spørring tok veldig lang tid( "
+							"[Insane] En spÃ¸rring tok veldig lang tid( "
 									+ (newTime - time)
-									+ " ms). Spørringen var: " + query);
+									+ " ms). SpÃ¸rringen var: " + query);
 				}
 				checkWarnings();
 				;
@@ -133,14 +118,6 @@ public class InsaneMySQLHandler {
 			return false;
 		}
 	}
-
-	/**
-	 * Metode som kjører en update uten preparedStatement.
-	 * 
-	 * @param query
-	 *            (String) Spørringen
-	 * @return True/False alt ettersom om spørringen lyktes
-	 */
 
 	public boolean update(String query) {
 		Connection conn = null;
@@ -158,14 +135,6 @@ public class InsaneMySQLHandler {
 		}
 	}
 
-	/**
-	 * Oppdaterer databasen med din spørring samtidig som den returnerer den
-	 * genererte iden
-	 * 
-	 * @param query
-	 *            Selve spørringen (String)
-	 * @return int. Returnerer 0 hvis det ikke ble generert id.
-	 */
 	public int insert(String query) {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -190,23 +159,12 @@ public class InsaneMySQLHandler {
 		}
 	}
 
-	/**
-	 * Henter ut en gitt kolonne fra tabellen. Funker kun så lenge spørringen
-	 * ber om kun en kolonne.
-	 * 
-	 * @param query
-	 *            Selve spørringen (String)
-	 * @param c
-	 *            Kolonnen som skal returneres (String)
-	 * @return Kolonnen (String) eller null
-	 */
 	public String getColumn(String query, String c) {
 		Connection conn = null;
 		Statement ps = null;
 		ResultSet rs = null;
 		String column = "";
 		try {
-			// conn = sqlConnector.getConnection();
 			conn = this.sqlConnection;
 			ps = conn.createStatement();
 			rs = ps.executeQuery(query);
@@ -225,29 +183,18 @@ public class InsaneMySQLHandler {
 		}
 	}
 
-	/**
-	 * Henter ut en gitt kolonne fra tabellen. Funker kun så lenge spørringen
-	 * ber om kun en kolonne.
-	 * 
-	 * @param query
-	 *            Selve spørringen (String)
-	 * @param c
-	 *            Kolonnen som skal returneres (String)
-	 * @return Kolonnen (String) eller null
-	 */
 	public String getColumn(String query, String c, Object[] array) {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		String column = "";
-		int counter = 1; // Definerer indeks som blir brukt i spørringen. Skal
-							// starte på 1.
+		int counter = 1;
 		if (array != null) {
 			try {
 				conn = this.sqlConnection;
 				ps = conn.prepareStatement(query);
 
-				// Her kjører man inn variablene
+				// Her kjÃ¸rer man inn variablene
 				for (Object o : array) {
 					if (o instanceof Integer) {
 						ps.setInt(counter, (Integer) o); // indeks og object som
@@ -260,7 +207,7 @@ public class InsaneMySQLHandler {
 										"[Insane] Nullobjekt i mysql-handler. (getColumn)");
 						return null;
 					}
-					counter++; // øker indeks
+					counter++;
 				}
 				array = null;
 				rs = ps.executeQuery();
@@ -279,23 +226,12 @@ public class InsaneMySQLHandler {
 		return column;
 	}
 
-	/**
-	 * Utestet! Metode for å hente ut flere rader og kolonner fra en database
-	 * 
-	 * @param query
-	 *            (String) Spørringen
-	 * @param array
-	 *            (Object[]) Et array som inneholder alle variabler som skal
-	 *            settes i spørringen
-	 * @return ArrayList<ArrayList<String>> som inneholder all data
-	 */
 	public ArrayList<ArrayList<String>> getRows(String query, Object[] array) {
 		ArrayList<ArrayList<String>> rows = new ArrayList<ArrayList<String>>();
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		int counter = 1; // Definerer indeks som blir brukt i spørringen. Skal
-							// starte på 1.
+		int counter = 1;
 		int rowCounter = 0;
 
 		if (array != null) {
@@ -304,7 +240,7 @@ public class InsaneMySQLHandler {
 				conn = this.sqlConnection;
 				ps = conn.prepareStatement(query);
 
-				// Her kjører man inn variablene
+				// Her kjÃ¸rer man inn variablene
 				for (Object o : array) {
 					if (o instanceof Integer) {
 						ps.setInt(counter, (Integer) o); // indeks og object som
@@ -317,7 +253,7 @@ public class InsaneMySQLHandler {
 										"[Insane] Nullobjekt i mysql-handler. (getRows)");
 						return null;
 					}
-					counter++; // øker indeks
+					counter++;
 				}
 				
 				rs = ps.executeQuery();
