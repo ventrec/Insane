@@ -20,15 +20,15 @@
   </developers>
   <build>
   		<defaultGoal>clean package install</defaultGoal>
-        <sourceDirectory>${basedir}/src</sourceDirectory>
+        <sourceDirectory>${basedir}/src/main</sourceDirectory>
         <!-- Resources -->
         <resources>
             <resource>
                 <targetPath>.</targetPath>
                 <filtering>false</filtering>
-                <directory>${basedir}</directory>
+                <directory>${basedir}/src/main</directory>
                 <includes>
-                    <include>LICENSE.txt</include>
+                    <include>plugin.yml</include>
                 </includes>
             </resource>
         </resources>
