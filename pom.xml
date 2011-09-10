@@ -4,7 +4,6 @@
   <groupId>insane</groupId>
   <artifactId>insane</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
   <developers>
   	<developer>
   		<id>1</id>
@@ -20,6 +19,9 @@
   	</developer>
   </developers>
   <build>
+  		<properties>
+			<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
+		</properties>
   		<sourceDirectory>src/main</sourceDirectory>
     <plugins>
 	  	<plugin>
