@@ -20,27 +20,33 @@
   </developers>
   <build>
     <plugins>
-    <plugin>
-      <artifactId>maven-assembly-plugin</artifactId>
-      <configuration>
-        <descriptorRefs>
-          <descriptorRef>jar-with-dependencies</descriptorRef>
-        </descriptorRefs>
-        <archive>
-          <manifest>
-            <mainClass>fully.qualified.MainClass</mainClass>
-          </manifest>
-        </archive>
-      </configuration>
-      <executions>
-        <execution>
-          <phase>package</phase>
-          <goals>
-            <goal>single</goal>
-          </goals>
-        </execution>
-      </executions>
-    </plugin>
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>only-library</id>
+            <goals><goal>jar</goal></goals>
+            <phase>package</phase>
+            <configuration>
+              <classifier>only-library</classifier>
+              <excludes>
+                <exclude>**/Main*</exclude>
+              </excludes>
+            </configuration>
+          </execution>
+          <execution>
+            <id>everything</id>
+            <goals><goal>jar</goal></goals>
+            <phase>package</phase>
+            <configuration>
+              <classifier>everything</classifier>
+              <includes>
+                <include>**/*</include>
+              </includes>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
   <repositories>
