@@ -19,9 +19,6 @@
   	</developer>
   </developers>
   <build>
-  		<properties>
-			<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
-		</properties>
   		<sourceDirectory>src/main</sourceDirectory>
     <plugins>
 	  	<plugin>
@@ -29,6 +26,7 @@
 			<configuration>
 				<source>1.6</source>
 				<target>1.6</target>
+				<outputEncoding>ISO-8859-1</outputEncoding>
 			</configuration>
 		</plugin>
      </plugins>
