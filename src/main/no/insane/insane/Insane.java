@@ -17,7 +17,6 @@ import no.insane.insane.handlers.InsaneMySQLHandler;
 import no.insane.insane.handlers.JSONAPICallHandler;
 import no.insane.insane.handlers.LogHandler;
 import no.insane.insane.handlers.PlayerData;
-import no.insane.insane.handlers.RedstoneRemoteHandler;
 import no.insane.insane.handlers.UserHandler;
 import no.insane.insane.listeners.InsaneBlockListener;
 import no.insane.insane.listeners.InsaneEntityListener;
@@ -52,7 +51,6 @@ import com.ramblingwood.minecraft.jsonapi.api.APIMethodName;
 		
 		// Handlers
 		private UserHandler userHandler = new UserHandler(this);
-		private RedstoneRemoteHandler rrh = new RedstoneRemoteHandler(this);
 		
 		// Logger
 		public static final Logger log = Logger.getLogger("Minecraft");
@@ -232,10 +230,6 @@ import com.ramblingwood.minecraft.jsonapi.api.APIMethodName;
 		
 		public UserHandler getUserHandler() {
 			return userHandler;
-		}
-		
-		public RedstoneRemoteHandler getRedstoneRemoteHandler() {
-			return rrh;
 		}
 		
 		public static String getPlayerIP(Player player) {
