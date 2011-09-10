@@ -17,6 +17,7 @@ import java.sql.Statement;
 import java.sql.Struct;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.Executor;
 
 /**
  * <b>Purpose:</b>Wrapper for JDBCConnection.<br>
@@ -35,6 +36,12 @@ public class JDCConnection implements Connection {
 	private Connection conn;
 	private boolean inuse;
 	private long timestamp;
+
+	public void abort(Executor e) {}
+	public int getNetworkTimeout() { return 0; }
+	public String getSchema() { return ""; }
+	public void setNetworkTimeout(Executor e,int i) {}
+	public void setSchema(String s) {}
 
 	public JDCConnection(Connection conn, ConnectionService pool) {
 		this.conn = conn;
