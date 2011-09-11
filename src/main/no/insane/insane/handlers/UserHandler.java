@@ -32,7 +32,7 @@ public class UserHandler {
 		this.conn = this.sqlHandler.getConnection();
 		try {
 			this.getUserPS = this.conn.prepareStatement("SELECT * FROM users WHERE `name` = ?");
-			this.getUserFromUIDPS = this.conn.prepareStatement("SELECT name FROM users WHERE `uid` = ?");
+			this.getUserFromUIDPS = this.conn.prepareStatement("SELECT name FROM users WHERE `id` = ?");
 		} catch (SQLException e) {
 			Insane.log.log(Level.SEVERE, "[Insane] Feil initialisering av prepared statements i UserHandler: ",	e);
 			return false;

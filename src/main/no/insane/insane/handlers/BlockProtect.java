@@ -66,7 +66,7 @@ public class BlockProtect {
 					deleted = false;
 				}
 			} else {
-				String name = this.userHandler.getNameFromUID(uid);
+				String name = this.userHandler.getNameFromUID(owner);
 				p.sendMessage("Denne blokken eies av: " + name);
 			}
 		} else {
