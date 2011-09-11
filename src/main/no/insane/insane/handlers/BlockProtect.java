@@ -18,7 +18,6 @@ public class BlockProtect {
 	
 	private Connection conn;
 	private PreparedStatement add;
-	private PreparedStatement delete;
 	private PreparedStatement isProtected;
 	private PreparedStatement getOwner;
 	
@@ -31,7 +30,6 @@ public class BlockProtect {
 		this.conn = this.sqlHandler.getConnection();
 		try {
 			this.add = this.conn.prepareStatement("REPLACE INTO `blocks` (`uid`, `x`, `y`, `z`, `world`) VALUES (?, ?, ?, ?, ?)");
-			this.delete = this.conn.prepareStatement("DELETE FROM blocks WHERE x=? AND y=? AND z=? AND world=?");
 			this.isProtected = this.conn.prepareStatement("SELECT uid FROM blocks WHERE x=? AND y=? AND z=? AND world=?");
 			this.getOwner = this.conn.prepareStatement("SELECT uid FROM blocks WHERE x=? AND y=? AND z=? AND world=?");
 		} catch (SQLException e) {
@@ -62,16 +60,10 @@ public class BlockProtect {
 		if(isProtected(b)) {
 			int owner = getOwner(b);
 			if(owner == uid) {
-				try {
-					this.delete.setShort(1, (short) b.getX());
-					this.delete.setShort(2, (short) b.getY());
-					this.delete.setShort(3, (short) b.getZ());
-					this.delete.setString(4, b.getWorld().getName());
-					this.delete.executeQuery();
-					deleted = true;
-				} catch (SQLException e) {
-					Insane.log.log(Level.SEVERE, "[Insane] MySQL Error: "+ Thread.currentThread().getStackTrace()[0].getMethodName(), e);
-					p.sendMessage("Kunne ikke slette blokken, prøv igjen eller kontakt Admin!");
+				if(sqlHandler.update("DELETE FROM blocks WHERE x='"+b.getX()+"' AND y='"+b.getY()+"' AND z='"+b.getZ()+"' AND world='"+b.getWorld().getName()+"'")) {
+					return true;
+				} else {
+					return false;
 				}
 			} else {
 				String name = this.userHandler.getNameFromUID(uid);
