@@ -60,20 +60,20 @@ public class BlockProtect {
 		if(isProtected(b)) {
 			int owner = getOwner(b);
 			Insane.log.info("Owner: " + owner);
-			if((owner == uid) && (owner != -1)) {
+			if(owner == uid) {
 				if(sqlHandler.update("DELETE FROM blocks WHERE x='"+b.getX()+"' AND y='"+b.getY()+"' AND z='"+b.getZ()+"' AND world='"+b.getWorld().getName()+"'")) {
 					deleted = true;
 				} else {
 					deleted = false;
 				}
-			} else if (owner == -1) {
-				// Blokken er ikke beskyttet så vi sender klarmelding om at den skal fjernes
-				// Husk: Legge inn logg her etterhvert.
-				deleted = true;
 			} else {
 				String name = this.userHandler.getNameFromUID(uid);
 				p.sendMessage("Denne blokken eies av: " + name);
 			}
+		} else {
+			// Blokken er ikke beskyttet så sender kall om å fjerne den
+			// Husk å legge til logg etterhvert.
+			deleted = true;
 		}
 		return deleted;
 	}
