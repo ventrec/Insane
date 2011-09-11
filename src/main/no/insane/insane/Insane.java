@@ -109,6 +109,7 @@ import com.ramblingwood.minecraft.jsonapi.api.APIMethodName;
 			
 			sqlConnection();
 			this.userHandler.initialize();
+			this.blockProtect.initialize();
 			
 			registerCommands();
 			
