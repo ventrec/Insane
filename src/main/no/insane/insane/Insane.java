@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 
 import no.insane.insane.commands.BrukerCommand;
 import no.insane.insane.commands.KickCommand;
+import no.insane.insane.handlers.BlockProtect;
 import no.insane.insane.handlers.ConfigurationHandler;
 import no.insane.insane.handlers.ConsoleHandler;
 import no.insane.insane.handlers.InsaneMySQLHandler;
@@ -51,6 +52,7 @@ import com.ramblingwood.minecraft.jsonapi.api.APIMethodName;
 		
 		// Handlers
 		private UserHandler userHandler = new UserHandler(this);
+		private BlockProtect blockProtect = new BlockProtect(this);
 		
 		// Logger
 		public static final Logger log = Logger.getLogger("Minecraft");
@@ -230,6 +232,10 @@ import com.ramblingwood.minecraft.jsonapi.api.APIMethodName;
 		
 		public UserHandler getUserHandler() {
 			return userHandler;
+		}
+		
+		public BlockProtect getBlockProtectHandler() {
+			return blockProtect;
 		}
 		
 		public static String getPlayerIP(Player player) {

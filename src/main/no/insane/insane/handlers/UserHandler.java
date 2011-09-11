@@ -18,6 +18,7 @@ public class UserHandler {
 	private HashMap<Player, PlayerData> users;
 	private InsaneMySQLHandler sqlHandler;
 	private PreparedStatement getUserPS;
+	private PreparedStatement getUserFromUIDPS;
 	private Insane plugin;
 	private Connection conn;
 
@@ -31,6 +32,7 @@ public class UserHandler {
 		this.conn = this.sqlHandler.getConnection();
 		try {
 			this.getUserPS = this.conn.prepareStatement("SELECT * FROM users WHERE `name` = ?");
+			this.getUserFromUIDPS = this.conn.prepareStatement("SELECT name FROM users WHERE `uid` = ?");
 		} catch (SQLException e) {
 			Insane.log.log(Level.SEVERE, "[Insane] Feil initialisering av prepared statements i UserHandler: ",	e);
 			return false;
@@ -164,6 +166,22 @@ public class UserHandler {
 	
 	public int getUID(Player p) {
 		return this.users.get(p).getUID();
+	}
+	
+	public String getNameFromUID(int uid) {
+		String name = null;
+		try {
+			this.getUserFromUIDPS.setInt(1, uid);
+
+			ResultSet rs = this.getUserFromUIDPS.executeQuery();
+
+			while (rs.next()) {
+				name = rs.getString(1);
+			}
+		} catch (SQLException e) {
+			Insane.log.log(Level.SEVERE, "[Insane] MySQL Error: "+ Thread.currentThread().getStackTrace()[0].getMethodName(), e);
+		}
+		return name;
 	}
 		
 	public boolean canBuild(Player p, World w) {
