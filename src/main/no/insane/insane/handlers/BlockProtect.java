@@ -41,6 +41,7 @@ public class BlockProtect {
 	
 	public boolean add(Player p, Block b) {
 		int uid = this.userHandler.getUID(p);
+		Insane.log.info("Add: UID: " + uid);
 		try {
 			this.add.setInt(1, uid);
 			this.add.setShort(2, (short) b.getX());
