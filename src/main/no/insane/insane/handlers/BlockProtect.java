@@ -65,14 +65,14 @@ public class BlockProtect {
 				} else {
 					return false;
 				}
+			} else if (uid == -1) {
+				// Blokken er ikke beskyttet så vi sender klarmelding om at den skal fjernes
+				// Husk: Legge inn logg her etterhvert.
+				deleted = true;
 			} else {
 				String name = this.userHandler.getNameFromUID(uid);
 				p.sendMessage("Denne blokken eies av: " + name);
 			}
-		} else if (uid == -1) {
-			// Blokken er ikke beskyttet så vi sender klarmelding om at den skal fjernes
-			// Husk: Legge inn logg her etterhvert.
-			deleted = true;
 		}
 		return deleted;
 	}
