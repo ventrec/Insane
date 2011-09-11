@@ -59,7 +59,6 @@ public class BlockProtect {
 		int uid = this.userHandler.getUID(p);
 		if(isProtected(b)) {
 			int owner = getOwner(b);
-			Insane.log.info("Owner: " + owner);
 			if(owner == uid) {
 				if(sqlHandler.update("DELETE FROM blocks WHERE x='"+b.getX()+"' AND y='"+b.getY()+"' AND z='"+b.getZ()+"' AND world='"+b.getWorld().getName()+"'")) {
 					deleted = true;
